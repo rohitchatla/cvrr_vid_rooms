@@ -14,7 +14,7 @@ app.use("/peerjs", peerServer);
 
 app.set("view engine", "ejs");
 
-app.use(express.static("views"));
+app.use(express.static("views")); //for views folder as root for taking image logo or any static file
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
