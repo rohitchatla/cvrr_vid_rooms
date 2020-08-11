@@ -18,6 +18,7 @@ app.use(express.static("views")); //for views folder as root for taking image lo
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+  console.log("starting in server 24321142384724657146527485146527467");
   res.redirect(`/${uuidV4()}`);
 });
 
