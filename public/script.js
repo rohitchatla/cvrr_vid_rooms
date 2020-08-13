@@ -47,12 +47,12 @@ socket.on("user-disconnected", (userId) => {
   if (peers[userId]) peers[userId].close();
 });
 
-socket.on("screenShareB", (t) => {
-  if (t.type == "B") {
-    console.log(t);
-    window.open("https://cvrr-share-screen.netlify.app/");
-  }
-});
+// socket.on("screenShareB", (t) => {
+//   if (t.type == "B") {
+//     console.log(t);
+//     window.open("https://cvrr-share-screen.netlify.app/");
+//   }
+// });
 
 myPeer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id);
@@ -107,11 +107,11 @@ const playStop = () => {
   }
 };
 
-const screenShare = () => {
-  console.log("called");
-  socket.emit("screenshareA", { type: "A" });
-  window.open("https://cvrr-share-screen.netlify.app/");
-};
+// const screenShare = () => {
+//   console.log("called");
+//   socket.emit("screenshareA", { type: "A" });
+//   window.open("https://cvrr-share-screen.netlify.app/");
+// };
 
 const setMuteButton = () => {
   const html = `
