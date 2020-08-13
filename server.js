@@ -39,6 +39,11 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
       socket.to(roomId).broadcast.emit("user-disconnected", userId);
     });
+
+    socket.on("screenShareA", (t) => {
+      console.log(t);
+      socket.emit("screenShareB", { type: "B" });
+    });
   });
 });
 
