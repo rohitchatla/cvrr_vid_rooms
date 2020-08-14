@@ -26,7 +26,7 @@ navigator.mediaDevices
     });
 
     socket.on("user-connected", (userId) => {
-      console.log(userId);
+      //console.log(userId);
       connectToNewUser(userId, stream);
     });
     // input value
@@ -40,7 +40,7 @@ navigator.mediaDevices
     });
     socket.on("createMessage", (p) => {
       $("ul").append(
-        `<li class="message"><b>Rocket-${p.uid}</b><br/>${p.message}</li>`
+        `<li class="message"><small><b>Rocket-${p.uid}</b></small><br/>${p.message}</li>`
       );
       scrollToBottom();
     });
