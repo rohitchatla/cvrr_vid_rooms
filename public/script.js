@@ -27,7 +27,9 @@ navigator.mediaDevices
 
     socket.on("user-connected", (userId) => {
       //console.log(userId);
+
       connectToNewUser(userId, stream);
+      alert("A new Rocket launched : " + userId);
     });
     // input value
     let text = $("input");
@@ -58,7 +60,7 @@ socket.on("user-disconnected", (userId) => {
 // });
 
 myPeer.on("open", (id) => {
-  socket.emit("join-room", ROOM_ID, id);
+  socket.emit("join-room", ROOM_ID, id); //id here is userid
 });
 
 function connectToNewUser(userId, stream) {
