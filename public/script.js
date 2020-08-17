@@ -49,7 +49,10 @@ navigator.mediaDevices
   });
 
 socket.on("user-disconnected", (userId) => {
-  if (peers[userId]) peers[userId].close();
+  if (peers[userId]) {
+    peers[userId].close();
+    alert("A new Rocket mission done : " + userId);
+  }
 });
 
 // socket.on("screenShareB", (t) => {
