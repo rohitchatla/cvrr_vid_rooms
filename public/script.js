@@ -9,6 +9,10 @@ let myVideoStream;
 const myVideo = document.createElement("video");
 myVideo.muted = true;
 const peers = {};
+
+const filter = document.querySelector("#filter");
+let currentFilter;
+
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -27,7 +31,12 @@ navigator.mediaDevices
 
     socket.on("user-connected", (userId) => {
       //console.log(userId);
-
+      filter.addEventListener("change", (event) => {
+        currentFilter = event.target.value;
+        videoGrid.style.filter = currentFilter;
+        SendFilter(currentFilter, userId);
+        event.preventDefault;
+      });
       connectToNewUser(userId, stream);
       alert("A new Rocket launched : " + userId);
     });
@@ -65,6 +74,12 @@ socket.on("user-disconnected", (userId) => {
 myPeer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id); //id here is userid
 });
+
+function SendFilter(filter, userId) {
+  if (peers[userId]) {
+    peers[userId].send(filter);
+  }
+}
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
