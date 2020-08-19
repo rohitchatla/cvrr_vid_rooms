@@ -92,6 +92,7 @@ myPeer.on("open", (id) => {
 });
 
 function SendFilter(filter) {
+  console.log(filter);
   socket.emit("filterchange", filter);
 }
 
