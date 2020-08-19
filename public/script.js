@@ -7,7 +7,7 @@ const myPeer = new Peer(undefined, {
 });
 let myVideoStream;
 const myVideo = document.createElement("video");
-myVideo.id = "myvideo";
+myVideo.id = "myVideo";
 myVideo.muted = true;
 const peers = {};
 
@@ -30,6 +30,7 @@ navigator.mediaDevices
     addVideoStream(myVideo, stream);
     myPeer.on("call", (call) => {
       call.answer(stream);
+      console.log("called");
       const video = document.createElement("video");
       video.id = "peerVideo";
       call.on("stream", (userVideoStream) => {
@@ -99,6 +100,7 @@ function SendFilter(filter) {
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
   const video = document.createElement("video");
+  video.id = "peerVideo";
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
