@@ -36,6 +36,11 @@ navigator.mediaDevices
       peervideo.style.filter = decodedData;
     });
 
+    socket.on("filtered", (filter) => {
+      let peervideo = document.querySelector("#peerVideo");
+      peervideo.style.filter = filter;
+    });
+
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
       myVideo.style.filter = currentFilter;
@@ -84,10 +89,8 @@ myPeer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id); //id here is userid
 });
 
-function SendFilter(filter, userId) {
-  if (myPeer) {
-    myPeer.send(filter);
-  }
+function SendFilter(filter) {
+  socket.emit("filterchange", filter);
 }
 
 function connectToNewUser(userId, stream) {
