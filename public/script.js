@@ -29,14 +29,16 @@ navigator.mediaDevices
       });
     });
 
+    filter.addEventListener("change", (event) => {
+      currentFilter = event.target.value;
+      videoGrid.style.filter = currentFilter;
+      //SendFilter(currentFilter, userId);
+      event.preventDefault;
+    });
+
     socket.on("user-connected", (userId) => {
       //console.log(userId);
-      filter.addEventListener("change", (event) => {
-        currentFilter = event.target.value;
-        videoGrid.style.filter = currentFilter;
-        SendFilter(currentFilter, userId);
-        event.preventDefault;
-      });
+
       connectToNewUser(userId, stream);
       alert("A new Rocket launched : " + userId);
     });
