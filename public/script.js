@@ -14,6 +14,12 @@ const peers = {};
 const filter = document.querySelector("#filter");
 let currentFilter;
 
+socket.on("filtered", (filter) => {
+  console.log(filter);
+  let peervideo = document.querySelector("#peerVideo");
+  peervideo.style.filter = filter;
+});
+
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -36,12 +42,6 @@ navigator.mediaDevices
     //   let peervideo = document.querySelector("#peerVideo");
     //   peervideo.style.filter = decodedData;
     // });
-
-    socket.on("filtered", (filter) => {
-      console.log(filter);
-      let peervideo = document.querySelector("#peerVideo");
-      peervideo.style.filter = filter;
-    });
 
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
