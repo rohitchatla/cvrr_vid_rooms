@@ -14,12 +14,6 @@ const peers = {};
 const filter = document.querySelector("#filter");
 let currentFilter;
 
-socket.on("filtered", (filter) => {
-  console.log(filter);
-  let peervideo = document.querySelector("#peerVideo");
-  peervideo.style.filter = filter;
-});
-
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -29,8 +23,7 @@ navigator.mediaDevices
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
     myPeer.on("call", (call) => {
-      call.answer(stream);
-      console.log("called");
+      call.answer(stream); //if call is going on then add admin to your setup as other member(among peers)
       const video = document.createElement("video");
       video.id = "peerVideo";
       call.on("stream", (userVideoStream) => {
@@ -43,6 +36,12 @@ navigator.mediaDevices
     //   let peervideo = document.querySelector("#peerVideo");
     //   peervideo.style.filter = decodedData;
     // });
+
+    socket.on("filtered", (filter) => {
+      console.log(filter);
+      let peervideo = document.querySelector("#peerVideo");
+      peervideo.style.filter = filter;
+    });
 
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
@@ -99,7 +98,7 @@ function SendFilter(filter) {
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
-  const video = document.createElement("video");
+  const video = document.createElement("video"); //adding this peer video to the owner's/admin's view
   video.id = "peerVideo";
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
