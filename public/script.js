@@ -24,15 +24,22 @@ navigator.mediaDevices
     myPeer.on("call", (call) => {
       call.answer(stream);
       const video = document.createElement("video");
+      video.id = "peerVideo";
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
     });
 
+    myPeer.on("data", function (data) {
+      let decodedData = new TextDecoder("utf-8").decode(data);
+      let peervideo = document.querySelector("#peerVideo");
+      peervideo.style.filter = decodedData;
+    });
+
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
       myVideo.style.filter = currentFilter;
-      SendFilter(currentFilter, userId);
+      SendFilter(currentFilter);
       event.preventDefault;
     });
 
@@ -78,8 +85,8 @@ myPeer.on("open", (id) => {
 });
 
 function SendFilter(filter, userId) {
-  if (peers[userId]) {
-    peers[userId].send(filter);
+  if (myPeer) {
+    myPeer.send(filter);
   }
 }
 
