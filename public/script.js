@@ -32,7 +32,7 @@ navigator.mediaDevices
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
       myVideo.style.filter = currentFilter;
-      //SendFilter(currentFilter, userId);
+      SendFilter(currentFilter, userId);
       event.preventDefault;
     });
 
