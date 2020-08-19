@@ -37,6 +37,7 @@ navigator.mediaDevices
     });
 
     socket.on("filtered", (filter) => {
+      console.log(filter);
       let peervideo = document.querySelector("#peerVideo");
       peervideo.style.filter = filter;
     });

@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
 
     socket.on("filterchange", (filter) => {
       //send message to the same room
-      io.to(roomId).emit("filtered", { filter: filter });
+      io.to(roomId).emit("filtered", filter);
     });
 
     socket.on("disconnect", () => {
