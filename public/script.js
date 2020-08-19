@@ -7,6 +7,7 @@ const myPeer = new Peer(undefined, {
 });
 let myVideoStream;
 const myVideo = document.createElement("video");
+myVideo.id = "myvideo";
 myVideo.muted = true;
 const peers = {};
 
@@ -30,11 +31,11 @@ navigator.mediaDevices
       });
     });
 
-    myPeer.on("data", function (data) {
-      let decodedData = new TextDecoder("utf-8").decode(data);
-      let peervideo = document.querySelector("#peerVideo");
-      peervideo.style.filter = decodedData;
-    });
+    // myPeer.on("data", function (data) {
+    //   let decodedData = new TextDecoder("utf-8").decode(data);
+    //   let peervideo = document.querySelector("#peerVideo");
+    //   peervideo.style.filter = decodedData;
+    // });
 
     socket.on("filtered", (filter) => {
       console.log(filter);
