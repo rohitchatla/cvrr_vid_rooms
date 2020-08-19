@@ -31,7 +31,7 @@ navigator.mediaDevices
 
     filter.addEventListener("change", (event) => {
       currentFilter = event.target.value;
-      videoGrid.style.filter = currentFilter;
+      myVideo.style.filter = currentFilter;
       //SendFilter(currentFilter, userId);
       event.preventDefault;
     });
