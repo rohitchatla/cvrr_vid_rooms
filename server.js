@@ -16,6 +16,7 @@ app.set("view engine", "ejs");
 
 app.use(express.static("views")); //for views folder as root for taking image logo or any static file
 app.use(express.static("public"));
+//app.use(express.static(path.join(__dirname, 'public')));//for js files if needed just added now in advance(./scripts/js) & link those in ejs or write js script in b/w script tag only
 
 app.get("/", (req, res) => {
   console.log("starting in server 24321142384724657146527485146527467");

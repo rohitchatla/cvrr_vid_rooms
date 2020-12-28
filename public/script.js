@@ -14,6 +14,97 @@ const peers = {};
 const filter = document.querySelector("#filter");
 let currentFilter;
 
+document.querySelector("#button").onclick = function () {
+  console.log("started");
+  var text = "";
+  var score = "";
+  fetch("http://localhost:3002/api/speech-to-text/token")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (token) {
+      var stream = WatsonSpeech.SpeechToText.recognizeMicrophone(
+        Object.assign(token, {
+          objectMode: true, // send objects instead of text
+          format: false, // optional - performs basic formatting on the results such as capitals an periods
+        })
+      );
+
+      stream.on("data", function (data) {
+        //console.log(data);
+        var conf = data.results[data.results.length - 1].alternatives[0]
+          .confidence
+          ? data.results[data.results.length - 1].alternatives[0].confidence
+          : 0; //0th has more confidence and sometimes confidence attribute doesnt come at all in any also
+        if (conf && conf > 0.37) {
+          //conf && conf > 0.47
+          transcript =
+            data.results[data.results.length - 1].alternatives[0].transcript;
+          if (score == 0) {
+            score = Math.max(score, conf);
+          } else {
+            score = (score + conf) / 2;
+          }
+          text += transcript;
+          console.log(text);
+        }
+      });
+
+      stream.on("error", function (err) {
+        console.log(err);
+      });
+
+      document.querySelector("#stop").onclick = function () {
+        console.log("stopped");
+        stream.stop.bind(stream);
+        var rno = Math.random() * 1000;
+        var title = "titleeg" + rno.toString();
+        postNote(title, "test@gmail.com", text, score);
+        //console.log(text, score);
+      };
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
+
+async function getSummarizedText(email, text) {
+  const body = { email, text };
+  //http://standnote.herokuapp.com
+  const res = await fetch("http://127.0.0.1:8000/summarizer/", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+
+  return data;
+}
+
+async function postNote(title, email, content, score) {
+  const data = await getSummarizedText(email, title);
+  //console.log(data);
+  const body = {
+    email,
+    duration: "200", //meetingDuration,
+    title,
+    content, //: meetingText,
+    markdown: data.summerised_text,
+    score, //: window.confidenceScore,
+  };
+  //http://standnote.herokuapp.com
+  const res = await fetch("http://127.0.0.1:8000/notes/", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  //console.log(res);
+}
+
 navigator.mediaDevices
   .getUserMedia({
     video: true,

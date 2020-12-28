@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
     <script src="script.js" defer></script>
+    <script src="watson-speech.js"></script>
+
     <style>
       #video-grid {
         display: flex;
@@ -54,7 +56,7 @@
             id="filter"
             class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border"
           >
-            <option value="none">Normal</option>
+            <option value="none">Normals</option>
             <option value="grayscale(100%)">B & W</option>
             <option value="sepia(100%)">Old School</option>
             <option value="contrast(150%)">Lumination</option>
@@ -100,7 +102,7 @@
             <a
               href="https://cvrr-share-screen.netlify.app/"
               target="_blank"
-              style="text-decoration: none; color: white;"
+              style="text-decoration: none; color: white"
             >
               <div class="main__controls__button" onclick="screenShare()">
                 <i class="fas fa-desktop"></i>
@@ -111,10 +113,10 @@
           <div class="main__controls__block">
             <a
               href="https://cvrrvidrooms.herokuapp.com/"
-              style="text-decoration: none; color: white;"
+              style="text-decoration: none; color: white"
             >
               <div class="main__controls__button">
-                <span class="leave_meeting" style="color: brown;">
+                <span class="leave_meeting" style="color: brown">
                   <bold>Leave Meeting</bold>
                 </span>
               </div>
@@ -129,9 +131,9 @@
           alt="cvrr_logo"
           width="50"
           height="50"
-          style="border-radius: 50%;"
+          style="border-radius: 50%"
         />
-        <p style="color: red;">For more visit ::</p>
+        <p style="color: red">For more visit ::</p>
         <a href="http://www.cvrrocket.ga">cvrrocket</a>
         <div class="main__header">
           <h6>Rocket's Chat</h6>
@@ -146,7 +148,59 @@
             placeholder="Type message here..."
           />
         </div>
+        <div class="container">
+          <section>
+            <button id="button">Start</button>
+            <button id="stop">Stop</button>
+          </section>
+        </div>
       </div>
     </div>
+    <!--can keep script here also-->
   </body>
+  <!--can keep script here also-->
+  <!-- <script>
+    document.querySelector("#button").onclick = function () {
+      console.log("started");
+      var text = "";
+      fetch("http://localhost:3002/api/speech-to-text/token")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (token) {
+          var stream = WatsonSpeech.SpeechToText.recognizeMicrophone(
+            Object.assign(token, {
+              objectMode: true, // send objects instead of text
+              format: false, // optional - performs basic formatting on the results such as capitals an periods
+            })
+          );
+
+          stream.on("data", function (data) {
+            //console.log(data);
+            if (
+              data.results[data.results.length - 1].alternatives[0]
+                .confidence &&
+              data.results[data.results.length - 1].alternatives[0].confidence >
+                0.57
+            ) {
+              transcript =
+                data.results[data.results.length - 1].alternatives[0]
+                  .transcript;
+              text += transcript;
+              console.log(text);
+            }
+          });
+
+          stream.on("error", function (err) {
+            console.log(err);
+          });
+
+          document.querySelector("#stop").onclick = stream.stop.bind(stream);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+  </script> -->
 </html>
+<!--can keep script here also-->
