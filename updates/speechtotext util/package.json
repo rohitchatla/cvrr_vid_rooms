@@ -1,7 +1,15 @@
 {
   "name": "myvoicething",
   "version": "0.1.0",
+  "description": "s2t_watson_ibm",
   "private": true,
+  "main": "./src/server-new.js",
+  "scripts": {
+    "start": "nodemon ./src/server-new.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.2",
@@ -15,11 +23,5 @@
     "vcap_services": "^0.3.4",
     "watson-developer-cloud": "^3.0.5",
     "watson-speech": "^0.38.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+  } 
 }

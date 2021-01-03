@@ -18,7 +18,8 @@ document.querySelector("#button").onclick = function () {
   console.log("started");
   var text = "";
   var score = "";
-  fetch("http://localhost:3002/api/speech-to-text/token")
+  //http://localhost:3002/api/speech-to-text/token
+  fetch("https://s2twatibm.herokuapp.com/api/speech-to-text/token")//https://s2twatibm.herokuapp.com/api/speech-to-text/token
     .then(function (response) {
       return response.json();
     })
@@ -71,7 +72,8 @@ document.querySelector("#button").onclick = function () {
 async function getSummarizedText(email, text) {
   const body = { email, text };
   //http://standnote.herokuapp.com
-  const res = await fetch("http://127.0.0.1:8000/summarizer/", {
+  //http://127.0.0.1:8000/summarizer/
+  const res = await fetch("https://cvrrvidnotes.herokuapp.com/summarizer/", {//https://cvrrvidnotes.herokuapp.com/summarizer/
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +97,8 @@ async function postNote(title, email, content, score) {
     score, //: window.confidenceScore,
   };
   //http://standnote.herokuapp.com
-  const res = await fetch("http://127.0.0.1:8000/notes/", {
+  //http://127.0.0.1:8000/notes/
+  const res = await fetch("https://cvrrvidnotes.herokuapp.com/notes/", {//https://cvrrvidnotes.herokuapp.com/notes/
     method: "post",
     headers: {
       "Content-Type": "application/json",
