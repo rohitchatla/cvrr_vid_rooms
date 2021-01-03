@@ -19,7 +19,7 @@ app.use(express.static("public"));
 //app.use(express.static(path.join(__dirname, 'public')));//for js files if needed just added now in advance(./scripts/js) & link those in ejs or write js script in b/w script tag only
 
 app.get("/", (req, res) => {
-  console.log("starting in server 24321142384724657146527485146527467");
+  console.log("starting in server 2432114238472465714652748514652746700000");
   res.redirect(`/${uuidV4()}`);
 });
 
