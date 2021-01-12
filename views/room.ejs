@@ -89,7 +89,7 @@
           <div class="main__controls__block">
             <div class="main__controls__button">
               <i class="fas fa-shield-alt"></i>
-              <span>Secure opts</span>
+              <span id="change">Secure opts/Settings</span>
             </div>
             <div class="main__controls__button">
               <i class="fas fa-user-friends"></i>
@@ -100,13 +100,54 @@
               <span>Chat/w</span>
             </div>
             <a
-              href="https://cvrr-share-screen.netlify.app/"
+              href="https://cvrrcollabnotes.netlify.app/"
               target="_blank"
               style="text-decoration: none; color: white"
             >
+              <div class="main__controls__button">
+                <i class="fas fa-sticky-note"></i>
+                <bold>collabNotes1</bold>
+              </div>
+            </a>
+            <a
+              href="https://cvrrcollabnotes2.netlify.app/"
+              target="_blank"
+              style="text-decoration: none; color: white"
+            >
+              <div class="main__controls__button">
+                <i class="fas fa-file-alt"></i>
+                <bold>collabNotes2</bold>
+              </div>
+            </a>
+            <a
+              href="https://cvrrscreenshare.netlify.app/"
+              target="_blank"
+              style="text-decoration: none; color: white"
+            >
+              <!-- href=https://cvrr-share-screen.netlify.app/ -->
               <div class="main__controls__button" onclick="screenShare()">
                 <i class="fas fa-desktop"></i>
                 <bold>Screen Share/View</bold>
+              </div>
+            </a>
+            <a
+              href="https://rohitchatla.github.io/screen_record/"
+              target="_blank"
+              style="text-decoration: none; color: white"
+            >
+              <div class="main__controls__button">
+                <i class="fas fa-record-vinyl"></i>
+                <bold>Record</bold>
+              </div>
+            </a>
+            <a
+              href="https://cvrrquicksharelite.netlify.app/"
+              target="_blank"
+              style="text-decoration: none; color: white"
+            >
+              <div class="main__controls__button">
+                <i class="fas fa-share"></i>
+                <bold>quickShare</bold>
               </div>
             </a>
           </div>
@@ -152,6 +193,9 @@
           <section>
             <button id="button">Start</button>
             <button id="stop">Stop</button>
+            <button id="pause">Pause</button>
+            <button id="logout">Logout</button>
+            <button id="login">Login</button>
           </section>
         </div>
       </div>

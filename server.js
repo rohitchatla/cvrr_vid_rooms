@@ -24,13 +24,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:room", (req, res) => {
-  res.render("room", { roomId: req.params.room });
+  // localStorage not defined
+  // if (
+  //   localStorage.getItem("email") &&
+  //   localStorage.getItem("email") != "" &&
+  //   localStorage.getItem("email") != "null" &&
+  //   localStorage.getItem("email") != undefined
+  // ) {
+  //   let usernameid = p.uid; //${p.uid}
+  // } else {
+  //   let usernameid = localStorage
+  //     .getItem("email")
+  //     .substring(localStorage.getItem("email").indexOf("@")); //.substring(0, localStorage.getItem("email").indexOf("@") - 1);
+  // }
+  res.render("room", { roomId: req.params.room }); //, usernameid: usernameid
 });
 
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
     socket.join(roomId);
     socket.to(roomId).broadcast.emit("user-connected", userId);
+    //localStorage.setItem("sid", userId);
     // messages
     socket.on("message", (message) => {
       //send message to the same room
@@ -52,5 +66,5 @@ io.on("connection", (socket) => {
     // });
   });
 });
-
+//io.listen(3031);//3030
 server.listen(process.env.PORT || 3030);
