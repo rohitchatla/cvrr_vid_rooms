@@ -443,7 +443,7 @@ navigator.mediaDevices
     });
     socket.on("createMessage", (p) => {
       let usernameid = p.uid;
-      //console.log(usernameid)
+      //console.log(usernameid);
       if (
         localStorage.getItem("email") &&
         localStorage.getItem("email") != "" &&
@@ -460,7 +460,7 @@ navigator.mediaDevices
           .getItem("email")
           .substring(0, localStorage.getItem("email").indexOf("@") - 1); */
       }
-      console.log(usernameid);
+      //console.log(usernameid);
       $("ul").append(
         `<li class="message"><small><b>Rocket-${usernameid}</b></small><br/>${p.message}</li>`
       );
