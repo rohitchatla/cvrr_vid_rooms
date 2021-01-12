@@ -1,4 +1,4 @@
-const socket = io("/");
+const socket = io("/"); // "/" http://localhost:3030"
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
@@ -89,6 +89,9 @@ async function chataction() {
 
 document.querySelector("#button").onclick = function () {
   console.log("started");
+
+  login(); //for cvrrvidnotes authentication and(&) authorization(auth&auth)
+
   var text = "";
   var score = 0;
   var duration = 0;
@@ -177,8 +180,50 @@ document.querySelector("#button").onclick = function () {
 };
 
 function login() {
+  //already logged in check,(or else),--> if not then login
+
+  if (
+    localStorage.getItem("email") &&
+    localStorage.getItem("email") != "" &&
+    localStorage.getItem("email") != "null" &&
+    localStorage.getItem("email") != undefined
+  ) {
+    console.log("cc");
+    console.log(localStorage.getItem("email"));
+    console.log(
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@"))
+    );
+    document.querySelector("#logout").textContent =
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout";
+    document.querySelector("#login").disabled = true;
+  } else {
+    let email = prompt("Enter email id");
+    let password = prompt("Password");
+    let username = prompt("Username");
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
+    localStorage.setItem("username", username);
+    //login();//can cause user not found error for quick meet(instant meet)
+    console.log(localStorage.getItem("email"));
+    console.log(
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@"))
+    );
+    document.querySelector("#logout").textContent =
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout"; //localStorage.getItem("username")+ " Logout";
+    document.querySelector("#login").disabled = true;
+  }
+
   const email = localStorage.getItem("email"),
-    password = localStorage.getItem("password");
+    password = localStorage.getItem("password"),
+    username = localStorage.getItem("username");
 
   //disableButtons();
   //http://127.0.0.1:8000/rest-auth/login/
@@ -199,6 +244,7 @@ function login() {
     })
     .then((data) => {
       console.log(data);
+      alert("Logged in successfull");
       // chrome.storage.sync.set({ key: data.key });
       // chrome.storage.sync.set({ email });
       //enableButtons();
@@ -206,6 +252,7 @@ function login() {
     })
     .catch((err) => {
       console.log(err);
+      alert(err);
       //enableButtons();
     });
 }
@@ -214,6 +261,7 @@ document.querySelector("#logout").onclick = function () {
   console.log("logout");
   localStorage.setItem("email", "");
   localStorage.setItem("password", "");
+  localStorage.setItem("username", "");
   //document.querySelector("#logout").disabled = true;
   document.querySelector("#logout").textContent =
     localStorage
@@ -236,7 +284,7 @@ document.querySelector("#login").onclick = function () {
     let password = prompt("Password");
     localStorage.setItem("email", email);
     localStorage.setItem("password", password);
-    login();
+    //login();
     console.log(localStorage.getItem("email"));
     console.log(
       localStorage
@@ -254,7 +302,11 @@ document.querySelector("#login").onclick = function () {
 document.querySelector("#change").onclick = function () {
   console.log("change settings");
   let newemail = prompt("New email");
+  let newpassword = prompt("New email");
+  let newusername = prompt("New email");
   localStorage.setItem("email", newemail);
+  localStorage.setItem("password", newpassword);
+  localStorage.setItem("username", newusername);
 };
 
 // async function getSummarizedText(email, text) {//in textEditor.js
@@ -326,9 +378,11 @@ navigator.mediaDevices
     } else {
       let email = prompt("Enter email id");
       let password = prompt("Password");
+      let username = prompt("Username");
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
-      login();
+      localStorage.setItem("username", username);
+      //login();//can cause user not found error for quick meet(instant meet)
       console.log(localStorage.getItem("email"));
       console.log(
         localStorage
@@ -338,7 +392,7 @@ navigator.mediaDevices
       document.querySelector("#logout").textContent =
         localStorage
           .getItem("email")
-          .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout";
+          .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout"; //localStorage.getItem("username")+ " Logout";
       document.querySelector("#login").disabled = true;
     }
 
@@ -389,6 +443,7 @@ navigator.mediaDevices
     });
     socket.on("createMessage", (p) => {
       let usernameid = p.uid;
+      //console.log(usernameid)
       if (
         localStorage.getItem("email") &&
         localStorage.getItem("email") != "" &&
@@ -399,13 +454,13 @@ navigator.mediaDevices
       } else {
         usernameid = localStorage
           .getItem("email")
-          .substring(localStorage.getItem("email").indexOf("@"));
+          .substring(localStorage.getItem("email").indexOf("@")); //localStorage.getItem("username")
 
         /*localStorage
           .getItem("email")
           .substring(0, localStorage.getItem("email").indexOf("@") - 1); */
       }
-
+      console.log(usernameid);
       $("ul").append(
         `<li class="message"><small><b>Rocket-${usernameid}</b></small><br/>${p.message}</li>`
       );
