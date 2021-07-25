@@ -1,2 +1,8 @@
 node_modules
 someelse.txt
+/screen-recording_plain_vanilla_js_html/someelse.txt
+/screen-recording_plain_vanilla_js_html/hide
+/speechtotext util/someelse.txt
+/speechtotext util/hide
+/speechtotext util/.env
+/web-screen-capture-recording-not working/hide

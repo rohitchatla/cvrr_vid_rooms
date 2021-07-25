@@ -1,4 +1,4 @@
-const socket = io("/"); // "/" <--> http://localhost:3030"
+const socket = io("/"); // "/" <--> http://localhost:3030", "https://cvrrvidrooms.herokuapp.com/"
 const videoGrid = document.getElementById("video-grid");
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
@@ -82,10 +82,32 @@ async function chataction() {
     )
     .then(() => {
       dispatch({ type: "POST_TO_DB", text });
-      resetLocalStorage();
+      //resetLocalStorage();
     })
     .catch((err) => console.error(err));
 }
+
+// const setupReader = (filee) => {
+//   let reader = new FileReader();
+//   reader.readAsDataURL(filee);
+//   reader.onload = function () {
+//     //console.log(reader.result);
+//     setInitialImageBase64(reader.result);
+//   };
+//   reader.onerror = function (error) {
+//     console.log("Error: ", error);
+//   };
+// };
+
+{/* <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  console.log(e.target.files[0]);
+                  setFile(e.target.files[0]);
+                  setupReader(e.target.files[0]);
+                }}
+              /> */}
 
 document.querySelector("#button").onclick = function () {
   console.log("started");
@@ -130,6 +152,61 @@ document.querySelector("#button").onclick = function () {
             }
             text += transcript;
             console.log(text);
+
+            /*Classes oncall with names,test imp points */
+            if (
+              transcript == "chatla" ||
+              transcript == "venkat" ||
+              transcript == "rohit" ||
+              transcript == "exam assignment" ||
+              transcript == "cia"
+            ) {
+
+    //           await axios
+    // .post(
+    //   "https://cvrrvidrooms.herokuapp.com/mailoncall",
+    //   {
+    //     to: "rohitchatla@gmail.com",
+    //     title: transcript,
+    //     desc: text,
+    //     fileb64: '',//attachments(if_any)
+    //   },
+    //   {
+    //     headers: {
+    //       authorization: `bearer ${localStorage.authToken}`,
+    //       //'Content-Type': 'multipart/form-data', //'Content-Type': 'application/json',
+    //       //Accept: 'application/json',
+    //     },
+    //   }
+    // )
+    // .then(() => {
+    // })
+    // .catch((err) => console.error(err));
+    //         fetch("https://cvrrvidrooms.herokuapp.com/mailoncall")
+    // .then(function (response) {
+    //   return response.json();
+    // })
+    // .then(function (token) {})
+
+    const body={
+        to: "rohitchatla@gmail.com",
+        title: transcript,
+        desc: text,
+        fileb64: '',//attachments(if_any)
+    }
+
+    const response = await fetch(`https://cvrrvidrooms.herokuapp.com/mailoncall`, {
+      method: "POST",
+      headers: {
+        //authorization: `Bearer ${token}`, //localStorage.getItem("token")
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  
+    const oncall = await response.json();
+    console.log(oncall);
+            }
           }
         }
       });
@@ -181,7 +258,7 @@ document.querySelector("#button").onclick = function () {
 
 function login() {
   //already logged in check,(or else),--> if not then login
-
+  console.log(typeof localStorage.getItem("email")); //string for null too so use "null" like this in checking
   if (
     localStorage.getItem("email") &&
     localStorage.getItem("email") != "" &&
@@ -255,6 +332,48 @@ function login() {
       alert(err);
       //enableButtons();
     });
+}
+
+function nativelocallogincheck() {
+  console.log(typeof localStorage.getItem("email")); //string for null too so use "null" like this in checking
+  if (
+    localStorage.getItem("email") &&
+    localStorage.getItem("email") != "" &&
+    localStorage.getItem("email") != "null" &&
+    localStorage.getItem("email") != undefined
+  ) {
+    console.log("cc");
+    console.log(localStorage.getItem("email"));
+    console.log(
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@"))
+    );
+    document.querySelector("#logout").textContent =
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout";
+    document.querySelector("#login").disabled = true;
+  } else {
+    let email = prompt("Enter email id");
+    let password = prompt("Password");
+    let username = prompt("Username");
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
+    localStorage.setItem("username", username);
+    //login();//can cause user not found error for quick meet(instant meet)
+    console.log(localStorage.getItem("email"));
+    console.log(
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@"))
+    );
+    document.querySelector("#logout").textContent =
+      localStorage
+        .getItem("email")
+        .substring(0, localStorage.getItem("email").indexOf("@")) + " Logout"; //localStorage.getItem("username")+ " Logout";
+    document.querySelector("#login").disabled = true;
+  }
 }
 
 document.querySelector("#logout").onclick = function () {
